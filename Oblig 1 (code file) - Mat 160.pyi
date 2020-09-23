@@ -25,3 +25,7 @@ plt.axvline(-2, linewidth=1, color='r', linestyle='--', label='a' )
 plt.show()
 
 # Oppgave 2
+ # a)
+halvering = opt.bisect(f, a=1.5, b=2.0, rtol=1.0e-8, full_output=True)
+print(halvering)
+print('rundet ned til 7 desimalers nøyaktighet = '"%.7f" % halvering[0]+', ved 25 iterasjoner')
