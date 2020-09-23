@@ -26,6 +26,36 @@ plt.show()
 
 # Oppgave 2
  # a)
+
+ #halverings metoden:
 halvering = opt.bisect(f, a=1.5, b=2.0, rtol=1.0e-8, full_output=True)
 print(halvering)
-print('rundet ned til 7 desimalers nøyaktighet = '"%.7f" % halvering[0]+', ved 25 iterasjoner')
+print('')
+print('')
+print('Halverings metoden rundet ned til 7 desimalers nøyaktighet = '"%.7f" % halvering[0]+', ved 25 iterasjoner')
+
+#sekant metoden:
+def secant(f, x0, x1, tol, n):
+    '''Tar inn f, x0, x1, tol(ønsket accuracy), n(antall iterasjoner) og returnerer approksimert x for funksjon'''
+    for iteration in range(n):
+        xnew = x1 - (x1-x0)/(f(x1)-f(x0))*f(x1)
+        if abs(xnew-x1) < tol : break
+        else:
+            x0 = x1
+            x1 = xnew
+    else:print('reach max iteration reached')
+
+    return xnew, iteration
+
+print('')
+print('')
+print('Sekantmetoden: ',secant(f, x0=0 , x1=2, tol= 0.00001, n=100))
+
+
+#Newton method
+Dfdx = lambda x:(-2*(x-(d/10)+(1.1-(1/d+2))*x))
+
+newton=opt.newton(func=f,x0=1.5,fprime=Dfdx, tol=1.0e-7, full_output=True)
+print('')
+print('')
+print('Newtons metode: ', newton)
