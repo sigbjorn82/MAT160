@@ -28,7 +28,7 @@ plt.show()
  # a)
 
  #halverings metoden:
-halvering = opt.bisect(f, a=1.5, b=2.0, rtol=1.0e-8, full_output=True)
+halvering = opt.bisect(f, a=1.5, b=1.750, xtol=0.5e-8, full_output=True)
 print(halvering)
 print('')
 print('')
@@ -49,13 +49,23 @@ def secant(f, x0, x1, tol, n):
 
 print('')
 print('')
-print('Sekantmetoden: ',secant(f, x0=0 , x1=2, tol= 0.00001, n=100))
-
+print('Sekantmetoden: ',secant(f, x0=1 , x1=2, tol= 0.00001, n=100))
+sekant2 = opt.newton(func=f,x0=1.5, tol=0.5e-7, full_output=True)
+print('sekant2 ',sekant2)
 
 #Newton method
 Dfdx = lambda x:(-2*(x-(d/10)+(1.1-(1/d+2))*x))
 
-newton=opt.newton(func=f,x0=1.5,fprime=Dfdx, tol=1.0e-7, full_output=True)
+newton=opt.newton(func=f,x0=1.5,fprime=Dfdx, tol=0.5e-7, full_output=True)
 print('')
 print('')
 print('Newtons metode: ', newton)
+
+
+#oppgave 3
+
+#a)
+
+fzero = opt.brentq(f, a=1.5, b=1.750, xtol=0.5e-8, full_output=True)
+fzero2 = opt.brent(func=f)
+print('Brents method says: ', fzero)
