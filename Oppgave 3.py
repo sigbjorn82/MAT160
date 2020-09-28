@@ -70,6 +70,8 @@ error_sekant = np.array([abs(r_sann[0]-x) for x in data_S])
 print(error_bisection)
 
 #plot of
+plt.ylabel('Absolutt Error')
+plt.xlabel('Iterasjoner')
 plt.plot(error_bisection[:,0], error_bisection[:,1])
 plt.plot(error_newton[:,0], error_newton[:,1])
 plt.plot(error_sekant[:,0], error_sekant[:,1])
