@@ -9,6 +9,7 @@ f = lambda x: 1-(x-(d/10))**2+exp(1.1-(1/d+2))
 Dfdx = lambda x:(-2*(x-(d/10)+(1.1-(1/d+2))*x))
 
 tol = 0.5e-7
+tol_sek = 0.5e-10
 
 a = 1.5
 b = 2
@@ -35,9 +36,9 @@ def bisection_method(f, a, b, tol):
             iter += 1
 
 
-def sekant_method(f, x0, x1, tol):
+def sekant_method(f, x0, x1, tol_sek):
     i = 0
-    while abs((x1 - (x1 - x0) / (f(x1) - f(x0)) * f(x1)) - x1) > tol:
+    while abs((x1 - (x1 - x0) / (f(x1) - f(x0)) * f(x1)) - x1) > tol_sek:
         xnew = x1 - (x1 - x0) / (f(x1) - f(x0)) * f(x1)
         yield i, xnew
         x0 = x1
@@ -55,9 +56,9 @@ def newtons_method(f, Dfdx, x0, tol):
 
 
 #iteration arrays
-data_B = np.array(list(bisection_method(f, a, b, tol)))
-data_S = np.array(list(sekant_method(f, x0, x1, tol)))
-data_N = np.array(list(newtons_method(f, Dfdx, x1, tol)))
+data_B = np.array((list(bisection_method(f, a, b, tol))))
+data_S = np.array((list(sekant_method(f, x0, x1, tol))))
+data_N = np.array((list(newtons_method(f, Dfdx, x1, tol))))
 
 
 #error
@@ -67,13 +68,14 @@ error_bisection = np.array([abs(r_sann[0]-x) for x in data_B])
 error_newton = np.array([abs(r_sann[0]-x) for x in data_N])
 error_sekant = np.array([abs(r_sann[0]-x) for x in data_S])
 
-print(error_bisection)
+
 
 #plot of
-plt.ylabel('Absolutt Error')
+plt.ylabel('Error')
 plt.xlabel('Iterasjoner')
-plt.plot(error_bisection[:,0], error_bisection[:,1])
+plt.plot(error_bisection[:,0], error_bisection[:,1], label='line 1')
 plt.plot(error_newton[:,0], error_newton[:,1])
 plt.plot(error_sekant[:,0], error_sekant[:,1])
 plt.yscale('log')
+plt.title('absolut error: $|r_{sann}-x_{i}|$')
 plt.show()
