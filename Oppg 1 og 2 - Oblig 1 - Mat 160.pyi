@@ -2,9 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import optimize as opt
 from math import exp
-d=27
 
+d=27
 f = lambda x: 1-(x-(d/10))**2+exp(1.1-(1/d+2))
+Dfdx = lambda x:(-2*(x-(d/10)+(1.1-(1/d+2))*x))
+
+
 #Oppgave 1
 # a)
 # Siden f(-2) < 0 < f(2) kan man ihht. Intermediate value theorem
@@ -60,11 +63,3 @@ print('')
 print('')
 print('Newtons metode: ', newton)
 
-
-#oppgave 3
-
-#a)
-
-fzero = opt.brentq(f, a=1.5, b=1.750, xtol=0.5e-8, full_output=True)
-fzero2 = opt.brent(func=f)
-print('Brents method says: ', fzero)
