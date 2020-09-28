@@ -2,6 +2,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage{indentfirst}
 \usepackage{amsmath}
+\usepackage{commath}
+\usepackage{tabularx}
+\usepackage{hyperref}
 
 \title{MAT 160 - OBLIG 1 - Sigbjørn Fjelland}
 \author{fjelland }
@@ -15,7 +18,7 @@
 \maketitle
 \title{Hovedligning:}
 \begin{center}
-    Ihht bursdag $27.06$ $\Rightarrow{}d = 27$
+    Ihht bursdag $27.06$ $\Rightarrow{d = 27}$
 \end{center}
 \begin{center}
 \begin{equation*}
@@ -30,21 +33,19 @@ f(x)=1-\left(x-\frac{d}{10}\right)ˆ{2}+{exp}\left(1.1-\frac{1}{d+2}\right)\cdot
 
 \title{a)}
 
-\indent{    }I henhold til skjæring setningen (Intermediate value theorem) skal det, dersom funksjonen $f$ er kontinuerlig på ett intervall $[a,b]$ og $u$ er ett vilkårlig tall tall mellom $f(a)$ og $f(b)$, finnes det ett tall $c$ på intervallet $[a,b]$ s.a $f(c)=u$.\\\
+\indent{    }I henhold til skjæring setningen (Intermediate value theorem) skal det, dersom funksjonen $f$ er kontinuerlig på ett intervall $[a,b]$ og $u$ er ett vilkårlig tall tall mellom $f(a)$ og $f(b)$, finnes det ett tall $c$ på intervallet $[a,b]$ s.a $f(c)=u$.\\
 \begin{center}
 
-I dette tilfellet har vi intervallet $[-2,2]$ og: 
+I dette tilfellet har vi en kontinuerlig funksjon på intervallet $[-2,2]$ og: 
 \begin{equation}
     f(-2) = -20.6982130
 \end{equation}
 \begin{equation}
     f(2) = 0.9017869
 \end{equation}
-\begin{equation*}
-    \Rightarrow{}f(-2)<0<f(2)
-\end{equation*}
+
 \end{center}
-\indent{}Vil det si at det finnes en $f(c)=0$ s.a vi har en løsning på intervallet
+\indent{}Siden dette fører til $f(-2)<0<f(2)$ Vil det si at $f$ passer null og det finnes en $f(c)=0$ s.a vi har en løsning på intervallet.
 \newpage
 \begin{align*}
   \title{(b)}
@@ -54,13 +55,122 @@ I dette tilfellet har vi intervallet $[-2,2]$ og:
 
     \centering
     \includegraphics{f(x).png}
-    \caption{plot av f(x) på intervallet[-2,2]}
+    \caption{plot av f(x) på intervallet$[-2,2]$}
     \label{(b)}
 \end{figure}
 \newpage
 \section{oppgave}
+\indent{}Vi skal nå approximere $f(x)=0$ som vi slo fast i oppgave (a) har en løsning på ett intervall $[-2,2]$ i oppgave ved hjelp av halverings metoden, sekant metoden og newtons metode:
+\begin{center}
+\begin{tabular}{ | m{1em} | m{6em} | m{5cm}| m{3cm} | } 
+\hline
+ & Metode & Resultat & Iterasjoner \\ 
+\hline
+ a) &Halverings metode & 1.5202597677707672 & 23 \\ 
+\hline
+b) &Sekant metode &1.5202597881093256 & 4 \\ 
+\hline
+c) &Newtons metode &1.5202597537582903 & 22 \\ 
+\hline
+\end{tabular}
+\end{center}
+\underline{Halveringsmetoden:}\newline
+\indent{}Er basert på IVT (som vist i (a)) s.a $f$ trenger kun å være kontinuerlig på intervallet så finnes det en løsning. Det er bare å krympe intervallet til man står omtrent i punktet hvor løsningen for $f(c)=0$. Algoritmen er enkel:
+\begin{itemize}
+  \item Velg ett ønsket toleranse nivå (error): $\epsilon = \frac{1}{2}\cdot10^{-p}$ der p er antal desimalers næyaktighet (ihht def 1.3). I vårt eksempel blir det $p=-7$
+  \item Definer intervall $[a,b]$ og beregn middelverdi første iterasjon\\\ $c_{0} = \frac{(a_{0}+b_{0})}{2}$
+  \item Beregn $f(c_{n})$. Er den lik 0? Flaks! du er ferdig. Men i alle andre tilfeller:\\\ Dersom $f(a)\cdot{f(c)}<0$ $\Rightarrow{c_{n}=b_{n+1}}$ og motsatt er $a_{n+1}=c$
+  \item Kjør prosess til $\epsilon > c_{n} = \frac{(a_{n}-b_{n})}{2}$
+\end{itemize}
+\indent{}Når vi snakker om $\epsilon$. Man kan i halverings metoden estimere omtrent hvor mange steg man trenger for å nå frem ved å snu om på sammenhengen $\epsilon < \frac{(a_{n}-b_{n})}{2^{n+1}}$:\\
+\begin{equation*}
+    \log(\epsilon) < \log\left(\frac{(a_{n}-b_{n})}{2^{n+1}}\right)\\
+\end{equation*}
+\begin{equation*}
+    \log\left(\frac{10^{-p}}{2}\right) < \log\left(\frac{(a_{n}-b_{n})}{2^{n+1}}\right)
+\end{equation*}
+\begin{equation*}
+    \log(10^{-p})-\log(2)<\log(a_{n}-b_{n})-(n+1)\cdot\log(2)
+\end{equation*}
+\begin{equation*}
+    \frac{\log(10^{-p})}{\log(2)}-\frac{\log(2)}{\log(2)}<\frac{\log(a_{n}-b_{n})}{\log(2)}-n-1
+\end{equation*}
+\begin{equation*}
+    \frac{\log(a_{n}-b_{n})}{\log(2)}-\frac{\log(10^{-p})}{\log(2)}<n
+\end{equation*}\newline
+Slik kan man altså si noe om hvor mange iterasjoner man trenger dersom man har ett intervall der det er en løsning.\newline
+\indent{}Hvis man analyserer den absolutte feilen fra eksakt til rot verdi:
+\begin{equation*}
+    \abs{c_{n}-r}=\frac{\abs{b-a}}{2^{n}}
+\end{equation*}
+ser vi at den konvergerer linjært, altså vi halverer feilen. Dette gjør det også til en tyngre prosess, gitt at man først må finne ett intervall som har en løsning så må man bruke like mange iterasjoner som man ønsker desimalers nøyaktighet. Det kan derfor være andre måter som er mer effektive.\newline
 
+\underline{Sekant metoden:}\newline
+\indent{}Sekant metoden er til forveksling lik Newtons metode, men i stede for å bruke den deriverte av funksjonen, baserer seg på sekant setningen som er en approksimasjon av den deriverte av en funksjon.
+\begin{equation*}
+    f'(c_{i})=\frac{f(x_{i})-f(x_{i-1})}{x_{i}-x_{i-1}}
+\end{equation*}
+man substituerer inn $f'(c_{i})$ for $f'(x_{i})$ s.a:
+\begin{align*}
+     x_{i+1}&=x_{i}-\frac{f(x_{i})}{f'(x_{i})}\mbox{ for all }i=1, 2, 3, ....\\
+\end{align*}
+\begin{center}
+    substituer inn $f'(c_{i})$\\
+\begin{align*}
+    x_{i+1} =x_{i}-\frac{f(x_{i})}{f'(c_{i})}\Rightarrow{x_{i}-\frac{f(x_{i})}{\frac{f(x_{i})-f(x_{i-1})}{(x_{i}-x_{i-1})}}}=x_{i}-\frac{f(x_{i})\cdot(x_{i}-x_{i-1})}{f(x_{i})-f(x_{i-1})}\\
+    \mbox{ for all }i=1, 2,3, ....
+\end{align*}
+\end{center}
+Det er tre metoder å implementere sekant metoden. Method of False Positions, Mullers Method og Inverse quadratic interpolation.\newline
+Den algoritmen jeg selv har brukt er Method of False Position:
+\begin{itemize}
+  \item Velg ett ønsket toleranse nivå (error): $\epsilon = \frac{1}{2}\cdot10^{-p}$ der p er antal desimalers næyaktighet (ihht def 1.3). I vårt eksempel blir det $p=-7$
+  \item velg inngangsverdi, la oss si for vår funksjon  $x_{0}=1$ og $x_{1}=2$ 
+  \item Beregn $x_{2}=x_{1}-\frac{f(x_{1})\cdot(x_{1}-x_{0})}{f(x_{1})-f(x_{0})}$
+  \item Beregn $f(x_{i+1})$. Er den lik 0? Flaks! du er ferdig. Men i alle andre tilfeller:\\\ Dersom $f(x_{i})\cdot{f(x_{i+1})}<0$ $\Rightarrow{x_{i+1}=x_{i}}$ og motsatt er $x_{i-1}=c$
+  \item Kjør prosess til $\epsilon > \abs{x_{2}-x_{1}}$
+\end{itemize}\newpage
 
-\bibliographystyle{plain}
-\bibliography{references}
+\underline{Newtons metoden:}\newline
+
+Newtons tar utgangspkt i tangenten i et pkt $(x_{i-1}, f(x_{i-1}))$:
+\begin{align*}
+    f(x_{i+1})-f(x_{i})=f'(x_{i})(x_{i+1}x_{i}))
+\end{align*}
+siden vi er ute etter $f(x) = 0$ kan vi substituere inn 0 for $f(x_{i+1})$
+\begin{align*}
+    &\Rightarrow{0-f(x_{i})=f'(x_{i})(x_{i+1}x_{i}))}\\
+    &\Rightarrow{x_{i+1}=x_{i}-\frac{f(x_{i})}{f'(x_{i})}\mbox{ for all }i=1, 2, 3, ....}
+\end{align*}
+Algoritmen blir den samme som sekant metoden uten å substituere inn $f'(c_{i})$ for $f'(x_{i})$. Man må altså beregne $f'(x)$ for hvert steg og følgelig holder det ikke at $f$ bare er kontinuerlig, den må også være deriverbar. Den vil heller ikke konvergere dersom en treffer ett ekstremalpunkt, siden  $f'(x_{i})=0$ og følgelig $x_{i+1}=x_{i}-\frac{f(x_{i})}{0}$ ikke eksisterer.
+
+\section{oppgave}
+\indent{a)}
+\newline
+
+\indent{Ved åbenytte rotløseren scipy.optimize.brentq\footnote{scipy bibliotek: \url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.brentq.html}}} (substitut for rzero) fikk vi med 6 iterasjoner:\newline
+\begin{align*}
+    r_{sann}= 1.5202597881093278
+\end{align*}
+\newline
+\indent{b) Se diagram neste side}
+\newpage
+\begin{figure}
+    \centering
+    \includegraphics{Absolutt error.png}
+    \caption{Halvering (blå), Newtons, (Orange) og Sekant (Grønn)}
+    \label{(b)}
+\end{figure}
+
+\indent{c)}\newline 
+\indent{}Vi ser av plottet at Halverings metoden (blå) konvergerer ganske fort. Dette ser vi som følge av at det fordi i hver iterasjon halveres og dermed, hvis første antagelsene var tett på roten tar den store jafs i starten inn mot roten så minker stegene raskt og etter bare få iterasjoner er det vanskelig å få den mer næyaktig.\newline
+\indent{}For newton og Sekant, ser vi av plottet at de er linjært. Som vi ser av plottet har verken Sekant metoden eller Newtons konvergert, og av neste plot ser vi at den først etter noen og 50 iterasjoner ser det ut il at Newtons metode (orange) konvergerer. Sekant ser ut til å utvikle seg videre.
+
+\begin{figure}
+    \centering
+    \includegraphics{Error Plot 50 15 desimals nøyaktighet.png}
+    \caption{Halvering (blå), Newtons, (Orange) og Sekant (Grønn)}
+    \label{(b)}
+\end{figure}
+
 \end{document}
