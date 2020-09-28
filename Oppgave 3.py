@@ -8,7 +8,7 @@ d=27
 f = lambda x: 1-(x-(d/10))**2+exp(1.1-(1/d+2))
 Dfdx = lambda x:(-2*(x-(d/10)+(1.1-(1/d+2))*x))
 
-tol = 0.5e-7
+tol = 0.5e-8
 tol_sek = 0.5e-10
 
 a = 1.5
