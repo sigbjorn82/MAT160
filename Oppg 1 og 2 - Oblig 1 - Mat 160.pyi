@@ -5,7 +5,7 @@ from math import exp
 
 d=27
 f = lambda x: 1-(x-(d/10))**2+exp(1.1-(1/d+2))
-Dfdx = lambda x:(-2*(x-(d/10)+(1.1-(1/d+2))*x))
+Dfdx = lambda x:(-2*(x-(d/10)+(1.1-(1/d+2))*exp(1.1-(1/d+2))*x))
 
 
 #Oppgave 1
@@ -56,10 +56,11 @@ sekant2 = opt.newton(func=f,x0=1.5, tol=0.5e-7, full_output=True)
 print('sekant2 ',sekant2)
 
 #Newton method
-Dfdx = lambda x:(-2*(x-(d/10)+(1.1-(1/d+2))*x))
+
 
 newton=opt.newton(func=f,x0=1.5,fprime=Dfdx, tol=0.5e-7, full_output=True)
 print('')
 print('')
 print('Newtons metode: ', newton)
+
 
