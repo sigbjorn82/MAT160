@@ -79,3 +79,5 @@ plt.plot(error_sekant[:,0], error_sekant[:,1])
 plt.yscale('log')
 plt.title('absolut error: $|r_{sann}-x_{i}|$')
 plt.show()
+
+print(error_bisection)
